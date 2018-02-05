@@ -85,7 +85,7 @@ abstract class BaseExpression<V> protected constructor() :
     abstract override fun getClassType(): Class<V>
 
     override val alias: String get() = ""
-    override fun `as`(alias: String): Expression<V> = AliasedExpression<V>(this, alias);
+    override fun `as`(alias: String): Expression<V> = AliasedExpression<V>(this, alias)
 
     override fun asc(): OrderingExpression<V> = OrderExpression(this, Order.ASC)
     override fun desc(): OrderingExpression<V> = OrderExpression(this, Order.DESC)

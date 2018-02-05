@@ -1,8 +1,7 @@
 apply plugin: 'java'
 apply plugin: "kotlin"
-
 dependencies {
-    compile project(':requery')
+    compile project(':libraries:requery:requery')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compileOnly "io.reactivex:rxjava:$rxjava_version"
     compileOnly "io.reactivex.rxjava2:rxjava:$rxjava2_version"

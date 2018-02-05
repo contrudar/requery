@@ -30,12 +30,6 @@ allprojects {
     }
 }
 
-idea {
-    project {
-        jdkName = '1.8'
-    }
-}
-
 group = 'io.requery'
 version = '1.5.0'
 description = 'A light but powerful object mapper and SQL generator for Java/Android'
@@ -46,96 +40,4 @@ if (localProperties.exists()) {
     properties.load(localProperties.newDataInputStream())
 }
 
-configure([project(':requery'), project(':requery-processor'), project(':requery-kotlin'), project(':requery-jackson')]) {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
 
-    javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/");
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        classifier = 'javadoc'
-        from javadoc.destinationDir
-    }
-
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from components.java
-                groupId rootProject.group
-                artifactId project.name
-                version rootProject.version
-
-                artifact sourcesJar
-                artifact javadocJar
-
-                pom.withXml {
-                    asNode().children().last() + project.pomXml
-                }
-            }
-        }
-
-        repositories {
-            maven {
-                credentials {
-                    username = bintray.user
-                    password = bintray.key
-                }
-                url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-            }
-        }
-    }
-}
-
-configure([project(':requery'), project(':requery-processor'), project(':requery-android'), project(':requery-kotlin'), project(':requery-jackson')]) {
-    apply plugin: 'com.jfrog.bintray'
-
-    bintray {
-        user = properties.getProperty('bintray.user')
-        key = properties.getProperty('bintray.apikey')
-        publications = ['maven']
-        pkg {
-            repo = 'requery'
-            name = 'requery'
-            userOrg = 'requery'
-            licenses = ['Apache-2.0']
-            vcsUrl = 'https://github.com/requery/requery.git'
-            version {
-                name = rootProject.version
-                desc = rootProject.description
-                released  = new Date()
-            }
-        }
-    }
-
-    ext {
-        pomXml = {
-            resolveStrategy = Closure.DELEGATE_FIRST
-            name project.name
-            description project.description ?: rootProject.description
-            url 'https://github.com/requery/requery'
-            scm {
-                url 'https://github.com/requery/requery.git'
-                connection 'scm:git:git://github.com/requery/requery.git'
-                developerConnection 'scm:git:git@github.com/requery/requery.git'
-            }
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/license/LICENSE-2.0.txt'
-                    distribution 'repo'
-                }
-            }
-            developers {
-                developer {
-                    id 'npurushe'
-                    name 'Nikhil Purushe'
-                }
-            }
-        }
-    }
-}

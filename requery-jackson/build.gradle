@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    compile project(':requery')
+    compile project(':libraries:requery:requery')
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"

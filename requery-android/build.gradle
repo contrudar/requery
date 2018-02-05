@@ -10,22 +10,15 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "$android_buildtools_version"
+    compileSdkVersion 27
+    buildToolsVersion "$buildTools"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'proguard-rules.pro'
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -38,49 +31,25 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true
+        }
+        androidtest{
+            minifyEnabled true
+        }
+    }
 }
 
 dependencies {
-    compile project(':requery')
-    compile 'com.android.support:support-v4:25.3.0'
-    compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile project(':libraries:requery:requery')
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:recyclerview-v7:27.0.2'
     compile 'net.zetetic:android-database-sqlcipher:3.5.7'
     compile 'io.requery:sqlite-android:3.21.0'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile project(':requery-test')
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-}
-
-publish.dependsOn 'assembleRelease'
-bintrayUpload.dependsOn 'assembleRelease'
-
-android.libraryVariants
-publishing {
-    publications {
-        maven(MavenPublication) {
-            // leaving out dependencies (components.java) intentionally
-            groupId rootProject.group
-            artifactId project.name
-            version rootProject.version
-            artifact getReleaseArtifact()
-            artifact sourcesJar
-            artifact javadocJar
-            pom.withXml {
-                asNode().children().last() + project.pomXml
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            credentials {
-                username = bintray.user
-                password = bintray.key
-            }
-            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
-        }
-    }
 }
 
 def getReleaseArtifact() {

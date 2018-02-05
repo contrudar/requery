@@ -93,7 +93,7 @@ inline fun <reified T : Any, R> rowExpressionOf(vararg expressions: KProperty1<T
 inline fun <reified T : Any, R> findAttribute(property: KProperty1<T, R>):
         AttributeDelegate<T, R> {
     val type: Type<*>? = AttributeDelegate.types
-            .filter { type -> (type.classType == T::class.java || type.baseType == T::class.java)}
+            .filter { type -> (type.classType == T::class.java || type.baseType == T::class.java) }
             .firstOrNull()
 
     if (type == null) {

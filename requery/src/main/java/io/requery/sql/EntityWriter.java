@@ -16,6 +16,19 @@
 
 package io.requery.sql;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import io.requery.CascadeAction;
 import io.requery.EntityCache;
 import io.requery.PersistenceException;
@@ -42,19 +55,6 @@ import io.requery.util.ObservableCollection;
 import io.requery.util.function.Function;
 import io.requery.util.function.Predicate;
 import io.requery.util.function.Supplier;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import static io.requery.query.element.QueryType.UPDATE;
 
@@ -757,8 +757,7 @@ class EntityWriter<E extends S, S> implements ParameterBinder<E> {
                     junctionProxy.set(tKey, tValue, PropertyState.MODIFIED);
                     junctionProxy.set(uKey, uValue, PropertyState.MODIFIED);
 
-                    Cascade cascade = isObservable && mode == Cascade.UPSERT ?
-                            Cascade.UPSERT : Cascade.INSERT;
+                    Cascade cascade = mode == Cascade.UPSERT ? Cascade.UPSERT : Cascade.INSERT;
                     cascadeWrite(cascade, junction, null);
                 }
                 if (changes != null) {

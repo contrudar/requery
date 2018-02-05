@@ -209,7 +209,7 @@ class QueryDelegate<E : Any>(element : QueryElement<E>) :
     }
 
     override fun from(vararg types: KClass<out Any>): JoinWhereGroupByOrderBy<E> {
-        val javaClasses = Array<Class<*>?>(types.size, {i -> types[i].java })
+        val javaClasses = Array<Class<*>?>(types.size, { i -> types[i].java })
         element.from(*javaClasses)
         return this
     }
@@ -269,7 +269,7 @@ class QueryDelegate<E : Any>(element : QueryElement<E>) :
         return this
     }
 
-    fun insertColumns(expressions: Array<out QueryableAttribute<*,*>>): InsertInto<E> {
+    fun insertColumns(expressions: Array<out QueryableAttribute<*, *>>): InsertInto<E> {
         element.insertColumns(expressions)
         return this
     }

@@ -51,7 +51,7 @@ class KotlinConfiguration(
     private val writeExecutor: Executor? = null) : Configuration {
 
     private val connectionProvider = when (dataSource) {
-        is ConnectionPoolDataSource -> PooledConnectionProvider(dataSource);
+        is ConnectionPoolDataSource -> PooledConnectionProvider(dataSource)
         is DataSource -> DataSourceConnectionProvider(dataSource)
         else -> throw IllegalArgumentException("unsupported dataSource " + dataSource)
     }
